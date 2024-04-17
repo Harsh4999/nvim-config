@@ -37,3 +37,14 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+-- -- Run :NvimTreeToggle when nvim is started
+-- vim.cmd "NvimTreeToggle"
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  pattern = "*",
+  command = "NvimTreeToggle",
+})
+
+-- set modifiable
+vim.bo.modifiable = true
