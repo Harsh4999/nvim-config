@@ -18,6 +18,35 @@ return {
     },
   },
   {
+    'tpope/vim-dadbod',
+    lazy = false,
+  },
+  {
+    'kristijanhusak/vim-dadbod-completion',
+    lazy = false,
+  },
+  {
+    'kristijanhusak/vim-dadbod-ui',
+    lazy = false,
+    depends = {
+      'tpope/vim-dadbod',
+    },
+    cmd = {
+      'DBUIToggle',
+      'DBUI',
+      'DBUIFindBuffer',
+      'DBUIRenameBuffer',
+      'DBUIUpsert',
+      'DBUIExecute',
+      'DBUIQuery',
+      'DBUIVisualQuery',
+      'DBUIQueryRange',
+      'DBUIQueryRangeVisual',
+      'DBUIQueryVisual'
+    }
+
+  },
+  {
     "akinsho/toggleterm.nvim",
     lazy = false,
     version = "*",
@@ -254,5 +283,10 @@ return {
         }
       })
     end,
+  },
+  {
+    "APZelos/blamer.nvim",
+    lazy = false
+
   }
 }
