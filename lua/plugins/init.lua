@@ -288,5 +288,24 @@ return {
     "APZelos/blamer.nvim",
     lazy = false
 
+  },
+  {
+    'nvim-lua/plenary.nvim',
+    lazy = false,
+  },
+  {
+    -- pin to 0.0.1 to avoid breaking changes
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",         -- required
+      "sindrets/diffview.nvim",        -- optional - Diff integration
+
+      -- Only one of these is needed, not both.
+      "nvim-telescope/telescope.nvim", -- optional
+      "ibhagwan/fzf-lua",              -- optional
+    },
+    config = true,
+    lazy = false,
   }
+
 }
