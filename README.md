@@ -1,2 +1,2 @@
 # starter
-Configuration for futur machines
+Configuration for future machines
