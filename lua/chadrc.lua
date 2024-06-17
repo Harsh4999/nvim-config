@@ -7,10 +7,10 @@ local M = {}
 M.ui = {
 	theme = "penumbra_dark",
 
-	-- hl_override = {
-	-- 	Comment = { italic = true },
-	-- 	["@comment"] = { italic = true },
-	-- },
+	hl_override = {
+		Comment = { italic = true },
+		["@comment"] = { italic = true },
+	},
 }
 
 return M

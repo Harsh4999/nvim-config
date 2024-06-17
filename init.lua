@@ -48,3 +48,25 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 -- set modifiable
 vim.bo.modifiable = true
+
+
+require'lspconfig'.pyright.setup{
+  on_attach = function(client, bufnr)
+    -- Optional: configure lsp-ts-utils or lspsaga here if needed
+  end,
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        diagnosticMode = "workspace",
+      },
+      -- pythonPath = function()
+      --   local handle = io.popen('poetry env info -p')
+      --   local result = handle:read("*a")
+      --   handle:close()
+      --   return result:match('([^\n]+)')
+      -- end,
+    },
+  }
+}

@@ -10,12 +10,40 @@ return {
   {
     "github/copilot.vim", 
     lazy = false,
+    -- change autocomplete binding from <Tab> to <C-Space>
+    -- config = function()
+    --   vim.g.copilot_key = "<C-Space>"
+
+    -- end,
   },
   {
     "hrsh7th/nvim-cmp",
     opts = {
-      enabled = false,
+      enabled = true,
     },
+    lazy = false,
+    -- config = function()
+    --   local cmp = require'cmp'
+    --   cmp.setup({
+    --     mapping = {
+    --       -- These lines bind <C-Tab> and <C-S-Tab> for navigating completions
+    --       -- ['<C-Tab>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+    --       -- ['<C-S-Tab>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+
+    --       -- You might want to keep or adjust other key mappings as well
+    --       ['<CR>'] = cmp.mapping.confirm({ select = true }),  -- Accept currently selected item with Enter key
+    --       ['<C-e>'] = cmp.mapping.abort(),  -- Abort/close the completion popup
+    --     },
+    --     -- Ensure your source setup remains appropriate
+    --     sources = cmp.config.sources({
+    --       { name = 'nvim_lsp' },
+    --       { name = 'buffer' },
+    --       { name = 'path' }
+    --       -- Add or remove sources as needed
+    --     })
+    --   })
+
+    -- end,
   },
   {
     'tpope/vim-dadbod',
@@ -305,6 +333,15 @@ return {
       "ibhagwan/fzf-lua",              -- optional
     },
     config = true,
+    lazy = false,
+  },
+  {
+    "glepnir/lspsaga.nvim",
+    lazy = false,
+
+  },
+  {
+    "jose-elias-alvarez/nvim-lsp-ts-utils",
     lazy = false,
   }
 
