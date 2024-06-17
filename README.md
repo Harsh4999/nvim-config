@@ -1,2 +1,2 @@
 # starter
-Starter config for NvChad
+Configuration for futur machines
