@@ -6,7 +6,7 @@
 -- local M = {}
 --
 -- M.base46 = {
--- 	theme = "onedark",
+-- 	theme = "chadracula",
 --
 -- 	-- hl_override = {
 -- 	-- 	Comment = { italic = true },
@@ -22,12 +22,20 @@
 ---@type ChadrcConfig
 local M = {}
 
-M.ui = {
-	theme = "penumbra_dark",
+M.base46 = {
+	theme = "chadracula",
 
 	hl_override = {
 		Comment = { italic = true },
 		["@comment"] = { italic = true },
+	},
+}
+
+M.ui = {
+	-- Disable statusline - using global laststatus=3 instead
+	-- This prevents the statusline from appearing above terminal splits
+	statusline = {
+		enabled = false,
 	},
 }
 

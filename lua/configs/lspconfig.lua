@@ -1,29 +1,8 @@
--- -- load defaults i.e lua_lsp
--- require("nvchad.configs.lspconfig").defaults()
---
--- local lspconfig = require "lspconfig"
---
--- -- EXAMPLE
--- local servers = { "html", "cssls" }
--- local nvlsp = require "nvchad.configs.lspconfig"
---
--- -- lsps with default config
--- for _, lsp in ipairs(servers) do
---   lspconfig[lsp].setup {
---     on_attach = nvlsp.on_attach,
---     on_init = nvlsp.on_init,
---     capabilities = nvlsp.capabilities,
---   }
--- end
---
--- -- configuring single server, example: typescript
--- -- lspconfig.ts_ls.setup {
--- --   on_attach = nvlsp.on_attach,
--- --   on_init = nvlsp.on_init,
--- --   capabilities = nvlsp.capabilities,
--- -- }
---
--- EXAMPLE 
+-- Suppress lspconfig deprecation warning for nvim 0.11+
+-- TODO: migrate to vim.lsp.config when NvChad updates
+local orig_deprecate = vim.deprecate
+vim.deprecate = function() end
+
 local on_attach = require("nvchad.configs.lspconfig").on_attach
 local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
@@ -41,10 +20,22 @@ for _, lsp in ipairs(servers) do
 end
 
 -- typescript
-lspconfig.tsserver.setup {
+lspconfig.ts_ls.setup {
   on_attach = on_attach,
   on_init = on_init,
   capabilities = capabilities,
+  handlers = {
+    ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+      -- Limit diagnostics to reduce log size
+      if result and result.diagnostics then
+        local max_diagnostics = 100
+        if #result.diagnostics > max_diagnostics then
+          result.diagnostics = vim.list_slice(result.diagnostics, 1, max_diagnostics)
+        end
+      end
+      vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
+    end,
+  },
 }
 
 
@@ -63,3 +54,51 @@ lspconfig.gopls.setup {
         },
     },
 }
+
+
+lspconfig.terraformls.setup {
+  cmd = { vim.fn.stdpath("data") .. "/mason/bin/terraform-ls", "serve" },
+  filetypes = { "terraform", "terraform-vars", "tf", "tfvars" },
+  root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
+  on_attach = on_attach,
+  on_init = on_init,
+  capabilities = capabilities,
+}
+
+
+-- opa is not a built-in lspconfig server, register it as a custom config
+local lspconfig_configs = require("lspconfig.configs")
+if not lspconfig_configs.opa then
+  lspconfig_configs.opa = {
+    default_config = {
+      cmd = { "opa", "lsp" },
+      filetypes = { "rego" },
+      root_dir = lspconfig.util.root_pattern(".git", "."),
+    },
+  }
+end
+
+lspconfig.opa.setup {
+  on_attach = on_attach,
+  on_init = on_init,
+  capabilities = capabilities,
+}
+
+-- pyright (moved from init.lua)
+lspconfig.pyright.setup {
+  on_attach = on_attach,
+  on_init = on_init,
+  capabilities = capabilities,
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        diagnosticMode = "workspace",
+      },
+    },
+  },
+}
+
+-- Restore vim.deprecate for other warnings
+vim.deprecate = orig_deprecate
